@@ -1,0 +1,97 @@
+DiamondsApp
+========================================================
+#title: false
+author: bdanalytics
+date: `r format(Sys.time(), "%a %b %d, %Y")`
+
+
+Contents
+========================================================
+
+- Overview
+
+- Prediction Algorithm
+
+- User Guide
+
+- Potential Next Steps
+
+- Appendix
+    + R packages used for this App
+
+Overview
+========================================================
+
+- Objective: 
+    + DiamondsApp predicts the price of a diamond based on user specified features e.g. clarity & cut
+
+- Data: 
+    + Training data derived from diamonds dataset in ggplot2 R package (http://docs.ggplot2.org/current/diamonds.html). 
+    + The data contains the prices and other attributes of almost 54,000 diamonds.
+
+- Website: https://bdanalytics.shinyapps.io/DiamondsApp/
+
+Prediction Algorithm
+========================================================
+
+- Model: 
+```{r display_model_1, echo=FALSE, cache=TRUE}
+suppressPackageStartupMessages(require(ggplot2))
+
+diamonds_df <- diamonds
+features_lst <- names(diamonds_df)
+features_lst <- features_lst[features_lst != "price"]
+prediction_mdl <- lm(reformulate(features_lst, response="price"), 
+                     data = diamonds_df)
+print(paste("price", paste(attr(prediction_mdl$terms, "term.labels"), collapse=" + "), sep=" ~ "))
+```
+
+- Coefficients (first few - haven't figured out how to compress display): 
+```{r display_model_2, echo=FALSE, results="asis", cache=TRUE}
+suppressPackageStartupMessages(require(xtable))
+print(xtable(summary(prediction_mdl)$coefficients), type="html")
+print(prediction_mdl$terms)
+```
+
+- Data: 
+    + Training data derived from diamonds dataset in ggplot2 R package (http://docs.ggplot2.org/current/diamonds.html). 
+    + The data contains the prices and other attributes of almost 54,000 diamonds.
+
+- Website: https://bdanalytics.shinyapps.io/DiamondsApp/
+
+User Guide
+========================================================
+
+1. Open https://bdanalytics.shinyapps.io/DiamondsApp/ in any browser
+
+2. Study the panels displayed
+    + Enter Test Diamond Features
+    + Enter Plot Parameters
+    + Notes
+    + Prediction Results
+    + Data Plot
+    
+3. Break it !
+    + If it does break, please provide details in the peer assessment feedback section
+
+Potential Next Steps
+========================================================
+
+- Make the data plot interactive:
+    + rCharts
+    + googleVis
+    + plot.ly
+    
+- Add ability for user inputs for other "model significant" test diamond features
+
+- Add ability for the user to change the prediction model
+    + Add or remove features
+
+Appendix
+========================================================
+
+- R packages used:
+
+```{r print_sessionInfo, echo=FALSE}
+sessionInfo()
+```
