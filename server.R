@@ -36,6 +36,8 @@ predict_price <- function(df) {
 test_diamonds_df <- predict_price(median_diamonds_df)
 #print(test_diamonds_df)
 
+py <- plotly()
+
 shinyServer(
     function(input, output) {
        
@@ -56,29 +58,8 @@ shinyServer(
             
             predict_price(test_diamonds_df) 
         })
-
-#         output$debug_str <- renderText(sprintf("test_diamonds_df:\n%s",
-#                                                test_diamonds_df_fn()))
-
-        output$price_predict_str <- renderText(
-            paste(sprintf("price: $%s; 95%% conf interval: [$%s, $%s]", 
-                    format(test_diamonds_df_fn()$price.predict.fit, big.mark=","),                    
-                    format(test_diamonds_df_fn()$price.predict.lwr, big.mark=","),                    
-                    format(test_diamonds_df_fn()$price.predict.upr, big.mark=","))
-                 ,sprintf("\n for a diamond with specified features: %s", 
-# Error: Single-bracket indexing of reactivevalues object is not allowed.                                
-#                           paste(sapply(c("predict.carat", "predict.cut"), 
-#                                        function(feat) paste0(feat, "=", 
-#                                                              print(input[feat]))), 
-#                                 collapse="; "))
-                            paste(paste0("carat = ", print(input$predict.carat)),
-                                  paste0("cut = ",   print(input$predict.cut)),
-                                  sep="; "))
-                 ,sprintf("\n and other features default to training data medians")
-            )
-        )
         
-        output$plot <- renderPlot({
+        create_ggplot <- function(input, i_pkg="NULL") {
             ui_x_name <- input$plot.x
             ui_x_val <- test_diamonds_df_fn()[ ,ui_x_name]
             if (length(grep("factor", class(median_diamonds_df[, ui_x_name]))) == 0)
@@ -131,13 +112,51 @@ shinyServer(
             p <- p + geom_smooth(method="lm")
             
             # linetype legend messes up the fill legend
-            #   but this code doesn't seem to make a difference
-#             p <- p + guides(fill=guide_legend(override.aes=list(linetype=0)))
             p <- p + guides(color=guide_legend(override.aes=list(linetype=0)))
             
-            print(p)
-            
-        }, height=700)
-     
+            return(p)
+        }    
+        
+        create_ggplot_reactive_fn <- reactive({
+            create_ggplot(input)
+        }) 
+
+#         output$debug_str <- renderText(sprintf("test_diamonds_df:\n%s",
+#                                                test_diamonds_df_fn()))
+
+        output$price_predict_str <- renderText(
+            paste(sprintf("price: $%s; 95%% conf interval: [$%s, $%s]", 
+                    format(test_diamonds_df_fn()$price.predict.fit, big.mark=","),                    
+                    format(test_diamonds_df_fn()$price.predict.lwr, big.mark=","),                    
+                    format(test_diamonds_df_fn()$price.predict.upr, big.mark=","))
+                 ,sprintf("\n for a diamond with specified features: %s", 
+# Error: Single-bracket indexing of reactivevalues object is not allowed.                                
+#                           paste(sapply(c("predict.carat", "predict.cut"), 
+#                                        function(feat) paste0(feat, "=", 
+#                                                              print(input[feat]))), 
+#                                 collapse="; "))
+                            paste(paste0("carat = ", print(input$predict.carat)),
+                                  paste0("cut = ",   print(input$predict.cut)),
+                                  sep="; "))
+                 ,sprintf("\n and other features default to training data medians")
+            )
+        )
+        
+#         output$plot <- renderPlot({
+#             gp <- create_ggplot_reactive_fn()
+#             print(gp)            
+#         }, height=700)
+
+        output$iplot <- renderUI({
+            pyout <- py$ggplotly(create_ggplot_reactive_fn())
+            embed_url <- pyout$response$url
+            embed_txt <- paste0(
+                '<iframe width="800" height="600" frameborder="0" ',
+                'seamless="seamless" scrolling="no" src="',
+                embed_url,
+                '.embed?width=800&height=600"></iframe>'
+            )
+            HTML(embed_txt)
+        })     
     }
 )

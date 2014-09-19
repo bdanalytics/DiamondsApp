@@ -56,7 +56,8 @@ shinyUI(pageWithSidebar(
         textOutput('price_predict_str'),
         
         h4('Data Plot:'),
-        plotOutput('plot'), 
+        #plotOutput('plot'),
+        uiOutput('iplot'),
         
         h5(' ')    # Placeholder so that all other commands have a comma
     )

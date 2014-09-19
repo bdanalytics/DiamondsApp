@@ -78,6 +78,7 @@ Potential Next Steps
 ========================================================
 
 - Make the data plot interactive:
+    + iGraph
     + rCharts
     + googleVis
     + plot.ly
