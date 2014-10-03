@@ -141,8 +141,8 @@ shinyServer(
 
         create_ggplot_reactive_fn <- reactive({
             cat("\nin create_ggplot_reactive_fn:")
-            if (input$tab == "ggplot")  i_pkg <- "None"
-            else                        i_pkg <- input$tab
+            if (input$plot.tab == "ggplot") i_pkg <- "None"
+            else                            i_pkg <- input$plot.tab
             myplot_scatter (diamonds_smp_df_fn(), input$plot.x, "price",
                             colorcol_name=input$plot.color,
                             jitter=input$plot.jitter, smooth=input$plot.smooth,
@@ -188,6 +188,12 @@ shinyServer(
                                              fileopt="overwrite", # Overwrite plot in Plotly's website
                                              auto_open=FALSE))
             tags$iframe(src=pyout$response$url,
+                        frameBorder="0",  # Some aesthetics
+                        height=600, width=800)
+        })
+
+        output$overview <- renderUI({
+            tags$iframe(src="http://bdanalytics.github.io/DiamondsApp/DiamondsApp_Rpres.html#/",
                         frameBorder="0",  # Some aesthetics
                         height=600, width=800)
         })

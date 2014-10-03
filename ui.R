@@ -66,25 +66,36 @@ shinyUI(pageWithSidebar(
     mainPanel(
         textOutput('debug_str'),
 
-        h4('Prediction Results:'),
-        textOutput('price_predict_str'),
-
-        h4('Data Plot:'),
-
         tabsetPanel(
-            tabPanel("ggplot",
-                     plotOutput('plot'),
+            tabPanel("Prediction",
+                h4('Result:'),
+                textOutput('price_predict_str'),
 
-                     h5(' ')    # Placeholder so that all other commands have a comma
+                h4('Data Plot:'),
+
+                tabsetPanel(
+                    tabPanel("ggplot",
+                             plotOutput('plot'),
+
+                             h5(' ')    # Placeholder so that all other commands have a comma
+                    ),
+
+                    tabPanel("plotly",
+                             uiOutput('iplot'),
+
+                             h5(' ')    # Placeholder so that all other commands have a comma
+                    ),
+
+                id="plot.tab")
             ),
 
-            tabPanel("plotly",
-                     uiOutput('iplot'),
+            tabPanel("Overview",
+                uiOutput('overview'),
 
-                     h5(' ')    # Placeholder so that all other commands have a comma
+                h5(' ')    # Placeholder so that all other commands have a comma
             ),
 
-        id="tab"),
+        id="header.tab"),
 
         h5(' ')    # Placeholder so that all other commands have a comma
     )
