@@ -50,19 +50,6 @@ shinyUI(pageWithSidebar(
         h5(" ")#, actionButton("goButton", "Go!")
     ),
 
-#     mainPanel(
-#         textOutput('debug_str'),
-#
-#         h4('Prediction Results:'),
-#         textOutput('price_predict_str'),
-#
-#         h4('Data Plot:'),
-# #         plotOutput('plot'),
-#         uiOutput('iplot'),
-#
-#         h5(' ')    # Placeholder so that all other commands have a comma
-#     )
-
     mainPanel(
         textOutput('debug_str'),
 

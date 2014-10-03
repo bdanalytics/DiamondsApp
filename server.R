@@ -36,7 +36,6 @@ predict_price <- function(df) {
 test_diamonds_df <- predict_price(median_diamonds_df)
 #print(test_diamonds_df)
 
-
 py <- plotly(username=plotly_username, key=plotly_key)
 
 mycheck_validarg <- function(value) {
@@ -117,9 +116,6 @@ myplot_scatter <- function(df, xcol_name, ycol_name,
 
 shinyServer(
     function(input, output) {
-#         cat("\nInitial Inputs:")
-#         cat(paste("\n    plot.sampleSize:", input$plot.sampleSize))
-#         cat(paste("\n    tab:", input$tab))
 
         diamonds_smp_df_fn <- reactive({
             diamonds_df[sample(nrow(diamonds_df), input$plot.sampleSize), ]
@@ -179,7 +175,6 @@ shinyServer(
         output$plot <- renderPlot({
             gp <- create_ggplot_reactive_fn()
             print(gp)
-        #}, height=1000, width=800)
         })
 
         output$iplot <- renderUI({
