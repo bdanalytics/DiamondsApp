@@ -117,6 +117,9 @@ myplot_scatter <- function(df, xcol_name, ycol_name,
 
 shinyServer(
     function(input, output) {
+#         cat("\nInitial Inputs:")
+#         cat(paste("\n    plot.sampleSize:", input$plot.sampleSize))
+#         cat(paste("\n    tab:", input$tab))
 
         diamonds_smp_df_fn <- reactive({
             diamonds_df[sample(nrow(diamonds_df), input$plot.sampleSize), ]
@@ -137,7 +140,9 @@ shinyServer(
         })
 
         create_ggplot_reactive_fn <- reactive({
-            #cat("\nin create_ggplot_reactive_fn:")
+            cat("\nin create_ggplot_reactive_fn:")
+            if (input$tab == "ggplot")  i_pkg <- "None"
+            else                        i_pkg <- input$tab
             myplot_scatter (diamonds_smp_df_fn(), input$plot.x, "price",
                             colorcol_name=input$plot.color,
                             jitter=input$plot.jitter, smooth=input$plot.smooth,
@@ -146,7 +151,7 @@ shinyServer(
                             ylabel="price ($)",
                             stats_df=median_diamonds_df,
                             predict_df=test_diamonds_df_fn()
-                            , i_pkg="plotly"
+                            , i_pkg=i_pkg
                             )
         })
 
@@ -171,10 +176,11 @@ shinyServer(
             )
         )
 
-#         output$plot <- renderPlot({
-#             gp <- create_ggplot_reactive_fn()
-#             print(gp)
-#         }, height=700)
+        output$plot <- renderPlot({
+            gp <- create_ggplot_reactive_fn()
+            print(gp)
+        #}, height=1000, width=800)
+        })
 
         output$iplot <- renderUI({
             pyout <- py$ggplotly(create_ggplot_reactive_fn(),
