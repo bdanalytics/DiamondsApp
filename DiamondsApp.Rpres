@@ -1,9 +1,8 @@
 DiamondsApp
 ========================================================
-#title: false
+title: Price Predictor
 author: bdanalytics
 date: `r format(Sys.time(), "%a %b %d, %Y")`
-
 
 Contents
 ========================================================
@@ -14,6 +13,8 @@ Contents
 
 - User Guide
 
+- Known Issues
+
 - Potential Next Steps
 
 - Appendix
@@ -22,11 +23,11 @@ Contents
 Overview
 ========================================================
 
-- Objective: 
+- Objective:
     + DiamondsApp predicts the price of a diamond based on user specified features e.g. clarity & cut
 
-- Data: 
-    + Training data derived from diamonds dataset in ggplot2 R package (http://docs.ggplot2.org/current/diamonds.html). 
+- Data:
+    + Training data derived from diamonds dataset in ggplot2 R package (http://docs.ggplot2.org/current/diamonds.html).
     + The data contains the prices and other attributes of almost 54,000 diamonds.
 
 - Website: https://bdanalytics.shinyapps.io/DiamondsApp/
@@ -34,27 +35,27 @@ Overview
 Prediction Algorithm
 ========================================================
 
-- Model: 
+- Model:
 ```{r display_model_1, echo=FALSE, cache=TRUE}
 suppressPackageStartupMessages(require(ggplot2))
 
 diamonds_df <- diamonds
 features_lst <- names(diamonds_df)
 features_lst <- features_lst[features_lst != "price"]
-prediction_mdl <- lm(reformulate(features_lst, response="price"), 
+prediction_mdl <- lm(reformulate(features_lst, response="price"),
                      data = diamonds_df)
 print(paste("price", paste(attr(prediction_mdl$terms, "term.labels"), collapse=" + "), sep=" ~ "))
 ```
 
-- Coefficients (first few - haven't figured out how to compress display): 
-```{r display_model_2, echo=FALSE, results="asis", cache=TRUE}
+- Coefficients (first few - haven't figured out how to compress display):
+```{r display_model_2, echo=FALSE, results="asis", cache=TRUE, }
 suppressPackageStartupMessages(require(xtable))
 print(xtable(summary(prediction_mdl)$coefficients), type="html")
 print(prediction_mdl$terms)
 ```
 
-- Data: 
-    + Training data derived from diamonds dataset in ggplot2 R package (http://docs.ggplot2.org/current/diamonds.html). 
+- Data:
+    + Training data derived from diamonds dataset in ggplot2 R package (http://docs.ggplot2.org/current/diamonds.html).
     + The data contains the prices and other attributes of almost 54,000 diamonds.
 
 - Website: https://bdanalytics.shinyapps.io/DiamondsApp/
@@ -70,9 +71,23 @@ User Guide
     + Notes
     + Prediction Results
     + Data Plot
-    
+
 3. Break it !
-    + If it does break, please provide details in the peer assessment feedback section
+    + If it does break, please provide details at https://github.com/bdanalytics/DiamondsApp/issues
+
+Known Issues
+========================================================
+
+1. ggplot: Some display options take a long time.
+    + Ideally, shiny::renderPlot should splash a "working" logo / graphic
+
+2. plot.ly:
+    + geom_point crashes when x-var is a factor
+    + Following does not render as add-ons:
+        + geom_vline
+        + geom_point
+        + geom_errorbar
+        + geom_smooth
 
 Potential Next Steps
 ========================================================
@@ -81,8 +96,7 @@ Potential Next Steps
     + iGraph
     + rCharts
     + googleVis
-    + plot.ly
-    
+
 - Add ability for user inputs for other "model significant" test diamond features
 
 - Add ability for the user to change the prediction model
