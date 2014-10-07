@@ -784,9 +784,9 @@ hljs.initHighlightingOnLoad();
   <div class="slides">
 
 <section data-state="section" data-transition="linear" data-transition-speed="default">
-<h1>DiamondsApp</h1><p>bdanalytics<br/>Wed Sep 17, 2014</p>
+<h1>DiamondsApp</h1><p>bdanalytics<br/>Sat Oct 04, 2014</p>
 
-<div class="slideContent" >
+<div class="slideContent noTitle" >
 
 </div>
 
@@ -798,6 +798,7 @@ hljs.initHighlightingOnLoad();
 <li><p>Overview</p></li>
 <li><p>Prediction Algorithm</p></li>
 <li><p>User Guide</p></li>
+<li><p>Known Issues</p></li>
 <li><p>Potential Next Steps</p></li>
 <li><p>Appendix</p>
 
@@ -813,15 +814,15 @@ hljs.initHighlightingOnLoad();
 <h3>Overview</h3>
 <div class="slideContent" >
 <ul>
-<li><p>Objective: </p>
+<li><p>Objective:</p>
 
 <ul>
 <li>DiamondsApp predicts the price of a diamond based on user specified features e.g. clarity &amp; cut</li>
 </ul></li>
-<li><p>Data: </p>
+<li><p>Data:</p>
 
 <ul>
-<li>Training data derived from diamonds dataset in ggplot2 R package (<a href="http://docs.ggplot2.org/current/diamonds.html">http://docs.ggplot2.org/current/diamonds.html</a>). </li>
+<li>Training data derived from diamonds dataset in ggplot2 R package (<a href="http://docs.ggplot2.org/current/diamonds.html">http://docs.ggplot2.org/current/diamonds.html</a>).</li>
 <li>The data contains the prices and other attributes of almost 54,000 diamonds.</li>
 </ul></li>
 <li><p>Website: <a href="https://bdanalytics.shinyapps.io/DiamondsApp/">https://bdanalytics.shinyapps.io/DiamondsApp/</a></p></li>
@@ -834,18 +835,18 @@ hljs.initHighlightingOnLoad();
 <h3>Prediction Algorithm</h3>
 <div class="slideContent" >
 <ul>
-<li>Model: </li>
+<li>Model:</li>
 </ul>
 
 <pre><code>[1] &quot;price ~ carat + cut + color + clarity + depth + table + x + y + z&quot;
 </code></pre>
 
 <ul>
-<li><p>Coefficients (first few - haven&#39;t figured out how to compress display): </p>
+<li><p>Coefficients (first few - haven&#39;t figured out how to compress display):</p>
 
 <!-- html table generated in R 3.1.1 by xtable 1.7-3 package -->
 
-<!-- Wed Sep 17 11:16:46 2014 -->
+<!-- Sat Oct  4 19:20:19 2014 -->
 
 <TABLE border=1>
 <TR> <TH>  </TH> <TH> Estimate </TH> <TH> Std. Error </TH> <TH> t value </TH> <TH> Pr(&gt;|t|) </TH>  </TR>
@@ -909,10 +910,10 @@ price     carat       cut     color   clarity     depth     table
 &ldquo;numeric&rdquo; &ldquo;numeric&rdquo; &ldquo;ordered&rdquo; &ldquo;ordered&rdquo; &ldquo;ordered&rdquo; &ldquo;numeric&rdquo; &ldquo;numeric&rdquo; 
     x         y         z 
 &ldquo;numeric&rdquo; &ldquo;numeric&rdquo; &ldquo;numeric&rdquo; </p></li>
-<li><p>Data: </p>
+<li><p>Data:</p>
 
 <ul>
-<li>Training data derived from diamonds dataset in ggplot2 R package (<a href="http://docs.ggplot2.org/current/diamonds.html">http://docs.ggplot2.org/current/diamonds.html</a>). </li>
+<li>Training data derived from diamonds dataset in ggplot2 R package (<a href="http://docs.ggplot2.org/current/diamonds.html">http://docs.ggplot2.org/current/diamonds.html</a>).</li>
 <li>The data contains the prices and other attributes of almost 54,000 diamonds.</li>
 </ul></li>
 <li><p>Website: <a href="https://bdanalytics.shinyapps.io/DiamondsApp/">https://bdanalytics.shinyapps.io/DiamondsApp/</a></p></li>
@@ -938,7 +939,34 @@ price     carat       cut     color   clarity     depth     table
 <li><p>Break it !</p>
 
 <ul>
-<li>If it does break, please provide details in the peer assessment feedback section</li>
+<li>If it does break, please provide details at <a href="https://github.com/bdanalytics/DiamondsApp/issues">https://github.com/bdanalytics/DiamondsApp/issues</a></li>
+</ul></li>
+</ol>
+
+</div>
+
+</section>
+<section data-transition="linear" data-transition-speed="default">
+<h3>Known Issues</h3>
+<div class="slideContent" >
+<ol>
+<li><p>ggplot: Some display options take a long time.</p>
+
+<ul>
+<li>Ideally, shiny::renderPlot should splash a &ldquo;working&rdquo; logo / graphic</li>
+</ul></li>
+<li><p>plot.ly:</p>
+
+<ul>
+<li>geom_point crashes when x-var is a factor</li>
+<li>Following does not render as add-ons:
+
+<ul>
+<li>geom_vline</li>
+<li>geom_point</li>
+<li>geom_errorbar</li>
+<li>geom_smooth</li>
+</ul></li>
 </ul></li>
 </ol>
 
@@ -952,9 +980,9 @@ price     carat       cut     color   clarity     depth     table
 <li><p>Make the data plot interactive:</p>
 
 <ul>
+<li>iGraph</li>
 <li>rCharts</li>
 <li>googleVis</li>
-<li>plot.ly</li>
 </ul></li>
 <li><p>Add ability for user inputs for other &ldquo;model significant&rdquo; test diamond features</p></li>
 <li><p>Add ability for the user to change the prediction model</p>
